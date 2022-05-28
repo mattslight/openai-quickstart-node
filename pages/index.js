@@ -1,9 +1,8 @@
-import Head from "next/head";
 import { useState } from "react";
 import styles from "./index.module.css";
 
 export default function Home() {
-  const [animalInput, setAnimalInput] = useState("");
+  const [queryInput, setQueryInput] = useState("");
   const [result, setResult] = useState();
 
   async function onSubmit(event) {
@@ -13,32 +12,27 @@ export default function Home() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ animal: animalInput }),
+      body: JSON.stringify({ query: queryInput }),
     });
     const data = await response.json();
     setResult(data.result);
-    setAnimalInput("");
+    setQueryInput("");
   }
 
   return (
     <div>
-      <Head>
-        <title>OpenAI Quickstart</title>
-        <link rel="icon" href="/dog.png" />
-      </Head>
-
       <main className={styles.main}>
-        <img src="/dog.png" className={styles.icon} />
-        <h3>Name my pet</h3>
+        <img style={{ width: 200 }} src="https://s3.eu-west-2.amazonaws.com/kps-cms-stage-assets/layout/kps-logo-dark_2021-05-07-165423_jhky.svg?mtime=20210507165424&amp;focal=none" />
+        <h3>What's your question?</h3>
         <form onSubmit={onSubmit}>
           <input
             type="text"
-            name="animal"
-            placeholder="Enter an animal"
-            value={animalInput}
-            onChange={(e) => setAnimalInput(e.target.value)}
+            name="query"
+            placeholder="What's your question?"
+            value={queryInput}
+            onChange={(e) => setQueryInput(e.target.value)}
           />
-          <input type="submit" value="Generate names" />
+          <input type="submit" value="Answer" />
         </form>
         <div className={styles.result}>{result}</div>
       </main>
